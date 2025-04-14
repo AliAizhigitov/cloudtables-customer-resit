@@ -1,0 +1,63 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BorderColor Black
+  BackgroundColor White
+  ArrowColor Black
+}
+
+actor Customer
+
+rectangle "CloudTables-Customer System" {
+
+  package "Authentication & Account" {
+    (Login)
+    (Update Profile)
+  }
+
+  package "Restaurant Discovery" {
+    (Search Restaurants)
+    (View Restaurant Info)
+  }
+
+  package "Booking & Orders" {
+    (Book Table)
+    (Confirm Booking)
+    (Pre-order Food)
+  }
+
+  package "Dining & Payment" {
+    (Pay Bill)
+    (Apply Discount Code)
+  }
+
+  package "Post-Dining Actions" {
+    (Leave Review)
+    (Earn Loyalty Points)
+    (Receive Notification)
+  }
+
+  ' <<include>> and <<extend>> relationships
+  (Book Table) --> (Login) : <<include>>
+  (Book Table) --> (Confirm Booking) : <<include>>
+  (Pre-order Food) --> (Confirm Booking) : <<include>>
+  (Pay Bill) --> (Pre-order Food) : <<extend>>
+  (Leave Review) --> (Pay Bill) : <<include>>
+  (Earn Loyalty Points) --> (Pay Bill) : <<include>>
+  (Receive Notification) --> (Confirm Booking) : <<include>>
+}
+
+' Customer's direct use case access
+Customer --> (Login)
+Customer --> (Update Profile)
+Customer --> (Search Restaurants)
+Customer --> (View Restaurant Info)
+Customer --> (Book Table)
+Customer --> (Pre-order Food)
+Customer --> (Pay Bill)
+Customer --> (Apply Discount Code)
+Customer --> (Leave Review)
+Customer --> (Earn Loyalty Points)
+Customer --> (Receive Notification)
+@enduml
