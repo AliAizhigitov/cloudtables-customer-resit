@@ -1,0 +1,35 @@
+@startuml
+|Customer|
+start
+:Open App;
+:Login;
+if (Login Successful?) then (yes)
+  :Search Restaurants;
+  :View Restaurant Info;
+  :Select Date, Time, Party Size;
+  :Submit Booking Request;
+else (no)
+  :Show Error Message;
+  stop
+endif
+
+|Frontend|
+:Forward Booking Request;
+
+|Booking Service|
+:Check Availability;
+
+if (Table Available?) then (yes)
+  :Create Booking Record;
+  :Generate Confirmation ID;
+  |Notification Service|
+  :Send Confirmation to Customer;
+  |Customer|
+  :Display Confirmation;
+  stop
+else (no)
+  |Customer|
+  :Display Unavailable Message;
+  stop
+endif
+@enduml
