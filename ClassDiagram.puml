@@ -1,0 +1,51 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Customer << (C,#ADD1B2) >> {
+  +customerID: int
+  +name: string
+  +contactInfo: string
+  --
+  +login(): void
+  +updateProfile(): void
+}
+
+class Booking << (C,#ADD1B2) >> {
+  +bookingID: int
+  +restaurantID: int
+  +tableID: int
+  +timestamp: datetime
+  --
+  +createBooking(): void
+  +cancelBooking(): void
+  +validateAvailability(): void
+}
+
+class Table << (C,#ADD1B2) >> {
+  +tableID: int
+  +capacity: int
+  --
+  +isAvailable(time): bool
+}
+
+class Notification << (C,#ADD1B2) >> {
+  +notificationID: int
+  +content: string
+  +deliveryStatus: string
+  --
+  +sendConfirmation(): void
+}
+
+interface BookingServiceAPI << (I,#C9A0DC) >> {
+  +createBooking(): void
+  +cancelBooking(): void
+  +validateAvailability(): void
+}
+
+Customer "1" --> "1" Booking : creates
+Booking "1" --> "1" Table : reserves
+Booking "1" --> "1" Notification : triggers
+Booking ..|> BookingServiceAPI
+
+@enduml
