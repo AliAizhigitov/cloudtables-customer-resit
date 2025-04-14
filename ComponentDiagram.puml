@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+
+component "API Gateway" as APIG
+component "Restaurant Search Service"
+component "Booking Service"
+component "Pre-order Service"
+component "Payment Service"
+component "Review Service"
+component "Notification Service"
+
+APIG --> "Restaurant Search Service" : /search
+APIG --> "Booking Service" : /book
+APIG --> "Pre-order Service" : /preorder
+APIG --> "Payment Service" : /pay
+APIG --> "Review Service" : /review
+"Booking Service" --> "Notification Service" : sendConfirmation()
+@enduml
