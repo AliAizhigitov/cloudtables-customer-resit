@@ -1,0 +1,32 @@
+@startuml
+
+actor Customer
+participant "API Gateway"
+participant "Booking Service"
+participant "Notification Service"
+
+Customer -> "API Gateway": submitBooking(details)
+"API Gateway" -> "Booking Service": checkAvailability(details)
+
+alt Table Available
+    "Booking Service" -> "Booking Service": confirmBooking()
+
+    opt Send Notification
+        "Booking Service" -> "Notification Service": sendConfirmation(bookingId)
+        "Notification Service" --> "Booking Service": confirmationSent
+    end
+
+    "Booking Service" --> "API Gateway": bookingConfirmed
+    "API Gateway" --> Customer: displayConfirmation()
+
+else Table Not Available
+    opt Suggest Alternatives
+        "Booking Service" -> "Booking Service": checkNextAvailableSlot()
+        "Booking Service" --> "API Gateway": suggestAlternativeTimes()
+    end
+
+    "Booking Service" --> "API Gateway": bookingFailed
+    "API Gateway" --> Customer: showError("Table not available")
+end
+
+@enduml
